@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/one_way", (req, res) => {
-  const { origin, destination, date, adults, children,babies } = req.query;
+  const { from, to, date, adults, children, babies } = req.query;
 
   if (!origin || !destination || !date || !adults || !children) {
     res.status(400).send("Invalid or missing parameters");

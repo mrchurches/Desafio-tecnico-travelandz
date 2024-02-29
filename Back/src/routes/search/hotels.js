@@ -25,6 +25,7 @@ router.get("/", (req, res) => {
     };
     fetch(url, options)
         .then((response) => response.json())
+        .then(data => console.log(data))
         .then((data) => res.send(data));
 });
 

@@ -5,7 +5,8 @@ const headers = require("../headersHelper.js");
 router.get("/", (req, res) => {
     const fields = req.query.fields || "";
     const language = req.query.language || "en";
-    const url= `https://api.test.hotelbeds.com/transfer-cache-api/1.0/locations/terminals?fields=${fields}&language=${language}`;
+    const countryCodes = req.query.countryCodes || "";
+    const url= `https://api.test.hotelbeds.com/transfer-cache-api/1.0/locations/terminals?fields=${fields}&language=${language}&countryCodes=${countryCodes}`;
     let options = {
         method: "GET",
         headers: headers,
