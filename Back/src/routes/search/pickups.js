@@ -7,7 +7,7 @@ router.get("/", (req, res) => {
   const language = req.query.language || "en";
   const countryCodes = req.query.countryCodes || "";
   const url = `https://api.test.hotelbeds.com/transfer-cache-api/1.0/pickups?fields=${fields}&language=${language}&countryCodes=${countryCodes}`;
-
+console.log(url)
   let options = {
     method: "GET",
     headers: headers,

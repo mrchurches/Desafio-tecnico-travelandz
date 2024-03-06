@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { setAccessToken, setUser } from '../redux/myReducer';
 
 const Login = ({isLoggedIn, setIsLoggedIn}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // Estado para controlar si mostrar u ocultar la contraseña
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -21,6 +24,9 @@ const Login = ({isLoggedIn, setIsLoggedIn}) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // console.log('Email:', email);
+    // console.log('Password:',password);
+    //TODO: esconder password
     fetch('http://localhost:3001/auth/login', {
         method: 'POST',
         headers: {
@@ -33,8 +39,12 @@ const Login = ({isLoggedIn, setIsLoggedIn}) => {
             if (data.success) {
             // Si el inicio de sesión fue exitoso, redirige al usuario a la página de inicio
             //con useNavigate deberia redireccionar a home y guardar en cookies la info del user
-            localStorage.setItem('accessToken', data.user.stsTokenManager.accessToken);
+            //ademas setear cookie
+            console.log('Login success:', data.user);
+            localStorage.setItem('accessToken', data.accessToken);
             localStorage.setItem('user', JSON.stringify(data.user));
+            dispatch(setUser(data.user));
+            dispatch(setAccessToken(data.accessToken));
             setIsLoggedIn(true);
             navigate('/home');
             } else {

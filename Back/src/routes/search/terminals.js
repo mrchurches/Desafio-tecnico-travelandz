@@ -12,8 +12,28 @@ router.get("/", (req, res) => {
         headers: headers,
     };
     fetch(url, options)
-        .then((response) => response.json())
-        .then((data) => res.send(data));
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            if (!data) {
+                throw new Error("Empty response received");
+            }
+            const modifiedData = data.map(obj => {
+                if (!obj.hasOwnProperty('type')) {
+                    return { ...obj, type: 'IATA' };
+                }
+                return obj;
+            });
+            res.send(modifiedData);
+        })
+        .catch((error) => {
+            console.error("Error fetching data:", error);
+            res.status(500).send("Internal Server Error");
+        });
 });
 
 module.exports = router;

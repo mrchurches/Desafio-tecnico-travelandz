@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const search = require("./search/index.js");
 const auth = require("./auth/index.js");
+const booking = require("./booking/index.js");
 const headers = require("./headersHelper.js");
 
 router.get("/", (req, res) => {
@@ -24,6 +25,7 @@ router.get("/test", (req, res) => {
 //i need to be able to search for transfers for ubication,date and type of vehicle
 router.use("/search", search);
 router.use("/auth", auth);
+router.use("/booking", booking);
 
 //i need to be able to  see details of the available transfers
 

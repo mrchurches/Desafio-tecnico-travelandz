@@ -12,6 +12,7 @@ router.get("/", (req, res) => {
         headers: headers,
     };
 
+    console.log("Fetching countries...");
     fetch(url, options)
         .then((response) => {
             if (!response.ok) {
@@ -20,17 +21,16 @@ router.get("/", (req, res) => {
             return response.json();
         })
         .then((data) => {
-            // Verificar si la respuesta contiene datos válidos
-            if (data) {
-                res.send(data);
-            } else {
-                throw new Error("Received empty response or invalid JSON");
+            if (!data) {
+                throw new Error("Empty response received");
             }
+            res.send(data);
         })
         .catch((error) => {
             console.error("Error fetching data:", error);
             res.status(500).send("Internal Server Error");
         });
+    // res.send({ok:"ok"})
 });
 
 module.exports = router;
